@@ -5,16 +5,16 @@ const heartLoader = document.querySelector(".cssload-main");
 const yesBtn = document.querySelector(".yes-btn");
 const noBtn = document.querySelector(".no-btn");
 
-// pastikan NO jadi posisi fixed biar bisa lari ke seluruh layar
-noBtn.style.position = "fixed";
-
-// scale awal tombol NO
+// skala awal tombol NO
 let noScale = 1;
 
-// fungsi untuk mindahin tombol NO ke posisi random
+// fungsi untuk mindahin tombol NO ke posisi random dan mengecilkannya
 function moveNoButton() {
-  // kalau sudah terlalu kecil -> hilang
-  if (noScale <= 0.2) {
+  if (!noBtn) return;
+
+  // kalau sudah terlalu kecil → hilang total
+  if (noScale <= 0.1) {
+    noScale = 0;
     noBtn.style.transform = "scale(0)";
     noBtn.style.opacity = "0";
     noBtn.style.pointerEvents = "none";
@@ -22,8 +22,8 @@ function moveNoButton() {
   }
 
   const padding = 16; // jarak dari pinggir layar
-  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding * 2;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding * 2;
 
   const newX = padding + Math.random() * maxX;
   const newY = padding + Math.random() * maxY;
@@ -31,35 +31,35 @@ function moveNoButton() {
   noBtn.style.left = `${newX}px`;
   noBtn.style.top = `${newY}px`;
 
-  // kecilkan dikit setiap kali dikejar
-  noScale -= 0.12;
-  if (noScale < 0.2) noScale = 0.2;
+  // kecilkan sedikit tiap dipicu
+  noScale -= 0.07;                // ubah angka ini kalau mau lebih cepat / lambat mengecil
+  if (noScale < 0.1) noScale = 0.1;
 
   noBtn.style.transform = `scale(${noScale})`;
   noBtn.style.opacity = String(noScale);
 }
 
-// desktop: hover
-noBtn.addEventListener("mouseover", moveNoButton);
-
-// mobile: tap
-noBtn.addEventListener("click", (e) => {
-  e.preventDefault(); // biar gak dianggap klik biasa di iOS
+// desktop: hover / mendekat
+noBtn.addEventListener("pointerenter", (e) => {
+  e.preventDefault();
   moveNoButton();
 });
-noBtn.addEventListener("touchstart", (e) => {
+
+// mobile & desktop: klik / tap
+noBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault();
+  e.stopPropagation();
   moveNoButton();
 });
 
 // TOMBOL YES
 yesBtn.addEventListener("click", () => {
-  questionContainer.style.display = "none";
-  heartLoader.style.display = "flex";
+  if (questionContainer) questionContainer.style.display = "none";
+  if (heartLoader) heartLoader.style.display = "flex";
 
   setTimeout(() => {
-    heartLoader.style.display = "none";
-    resultContainer.style.display = "block";
+    if (heartLoader) heartLoader.style.display = "none";
+    if (resultContainer) resultContainer.style.display = "block";
     if (gifResult && typeof gifResult.play === "function") {
       gifResult.play();
     }
