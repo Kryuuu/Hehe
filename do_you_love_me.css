@@ -1,58 +1,67 @@
 /* RESET */
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* BODY */
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #b06cff, #6a85ff, #65c7f7);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Quicksand", sans-serif;
+  font-family: "Quicksand", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
   padding: 1.2rem;
 }
 
-/* CARD */
+/* CARD UTAMA (PERTANYAAN & RESULT) */
 .question-container,
 .result-container {
   width: 100%;
   max-width: 360px;
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(15, 23, 42, 0.78);
   padding: 1.6rem 1.2rem 2rem;
   border-radius: 1.4rem;
   text-align: center;
-  color: white;
+  color: #f9fafb;
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  overflow: visible !important; /* FIX */
-  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  overflow: visible !important; /* biar tombol NO boleh kabur */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
-/* TENOR GIF */
+/* RESULT AWALNYA DISIMBUNYIKAN */
+.result-container {
+  display: none;
+}
+
+/* GIF TENOR DI ATAS */
 .tenor-gif-embed {
   border-radius: 1rem;
   overflow: hidden;
   margin-bottom: 1rem;
 }
 
-/* QUESTION TEXT */
+/* TEKS PERTANYAAN */
 .question {
   font-size: 1.6rem;
   font-weight: 700;
   margin: 1rem 0;
 }
 
-/* BUTTON GROUP */
+/* CONTAINER TOMBOL */
 .button-container {
   margin-top: 1.2rem;
-  height: 80px; /* ruang kabur */
-  position: relative; /* FIX: parent untuk absolute */
+  height: 80px; /* ruang buat NO kabur */
+  position: relative; /* parent posisi absolut */
 }
 
-/* BUTTON STYLE */
+/* STYLE DASAR BUTTON */
 .btn {
   width: 130px;
   padding: 0.65rem 1.2rem;
@@ -61,50 +70,152 @@ body {
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 /* YES BUTTON */
 .yes-btn {
   background: #34d399;
   color: #022c22;
+  box-shadow: 0 10px 24px rgba(34, 197, 94, 0.4);
 }
 
-/* NO BUTTON — FIXED */
+.yes-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 14px 30px rgba(34, 197, 94, 0.55);
+}
+
+/* NO BUTTON – kabur + bisa mengecil */
 .no-btn {
-  position: absolute; /* FIX */
+  position: absolute;
   background: transparent;
   border: 2px solid #8fb3ff;
   color: #cfe0ff;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    left 0.2s ease,
+    top 0.2s ease;
 }
 
-/* YES BTN EFFECT */
-.yes-btn:hover {
-  transform: scale(1.04);
-}
-
-/* LOADER */
-.cssload-main {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  justify-content: center;
-  align-items: center;
-  z-index: 99;
-}
-
-/* RESULT PAGE */
-.result-container {
-  display: none;
-}
-
+/* RESULT GIF & TEKS */
 .gif-result {
   width: 100%;
   border-radius: 1rem;
   margin-bottom: 1rem;
+  object-fit: cover;
+}
+
+.result-text,
+.result-container h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+/* LOADER HATI FULLSCREEN */
+.cssload-main {
+  display: none; /* dimunculkan via JS */
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 99;
+}
+
+/* BENTUK HATI */
+.cssload-heart {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  transform: rotate(-45deg);
+  animation: heartbeat 0.8s infinite;
+}
+
+.cssload-heartL,
+.cssload-heartR,
+.cssload-square {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: #fb7185;
+}
+
+.cssload-heartL {
+  border-radius: 50% 0 0 50%;
+  left: 0;
+  top: 0;
+}
+
+.cssload-heartR {
+  border-radius: 0 50% 50% 0;
+  right: 0;
+  top: 0;
+}
+
+.cssload-square {
+  transform: rotate(45deg);
+  bottom: 0;
+  left: 16px;
+}
+
+/* BAYANGAN HATI */
+.cssload-shadow {
+  margin-top: 18px;
+  width: 70px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  filter: blur(6px);
+  animation: shadowpulse 0.8s infinite;
+}
+
+/* ANIMASI HATI */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: rotate(-45deg) scale(1);
+  }
+  50% {
+    transform: rotate(-45deg) scale(1.18);
+  }
+}
+
+@keyframes shadowpulse {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scaleX(1.25);
+    opacity: 0.5;
+  }
+}
+
+/* RESPONSIVE HP KECIL */
+@media (max-width: 480px) {
+  .question-container,
+  .result-container {
+    max-width: 340px;
+    padding: 1.4rem 1rem 1.8rem;
+  }
+
+  .question {
+    font-size: 1.4rem;
+  }
+
+  .btn {
+    width: 120px;
+    font-size: 0.9rem;
+  }
 }
