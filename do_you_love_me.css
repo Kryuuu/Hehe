@@ -98,16 +98,30 @@ body {
 }
 
 /* NO BUTTON – start di atas, kabur + mengecil */
-.no-btn {
-  position: absolute;
+..no-btn {
+  position: fixed;                  /* supaya bisa lompat ke seluruh layar */
   background: transparent;
   border: 2px solid #8fb3ff;
   color: #cfe0ff;
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 20;
+  /* posisi awal kira-kira di tengah bawah layar */
   left: 50%;
-  top: 10px;                      /* di atas YES */
-  transform: scale(1);            /* JS cuma ubah scale */
-  z-index: 2;
+  bottom: 20%;
+  transform: translateX(-50%) scale(1);
+
+  touch-action: none;               /* bantu di iOS */
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    left 0.2s ease,
+    top 0.2s ease;
 }
+
 
 /* RESULT GIF & TEKS */
 .gif-result {
