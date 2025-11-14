@@ -1,0 +1,249 @@
+/* RESET RINGAN */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* BODY & LAYOUT UTAMA */
+body {
+  min-height: 100vh;
+  font-family: "Quicksand", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #ff9aeb 0%, #7f5dff 30%, #1b1f3b 75%, #050819 100%);
+  color: #fdfcff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* CARD PERTANYAAN */
+.question-container {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(18px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  padding: 1.8rem 1.6rem 2.2rem;
+  text-align: center;
+  position: relative;
+}
+
+/* GIF TENOR DI ATAS */
+.tenor-gif-embed {
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+/* TEKS PERTANYAAN */
+.question {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-top: 0.4rem;
+  margin-bottom: 1.4rem;
+  text-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* TOMBOL YES / NO */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+
+/* STYLE DASAR BUTTON */
+.btn {
+  min-width: 110px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+/* YES BUTTON */
+.yes-btn {
+  background: linear-gradient(135deg, #34d399, #22c55e);
+  color: #022c22;
+  box-shadow: 0 14px 30px rgba(34, 197, 94, 0.45);
+}
+
+.yes-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 18px 36px rgba(34, 197, 94, 0.6);
+}
+
+.yes-btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 8px 16px rgba(34, 197, 94, 0.4);
+}
+
+/* NO BUTTON */
+.no-btn {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+
+  /* supaya bisa dipindah2 dengan JS */
+  position: fixed;
+  z-index: 20;
+}
+
+.no-btn:hover {
+  background: rgba(15, 23, 42, 1);
+}
+
+/* RESULT CONTAINER (SETELAH YES) */
+.result-container {
+  display: none; /* disembunyikan dulu, muncul via JS */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(18px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  padding: 1.8rem 1.4rem 2rem;
+  text-align: center;
+}
+
+/* VIDEO RESULT */
+.gif-result {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 1.1rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+  object-fit: cover;
+}
+
+.result-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-top: 0.4rem;
+}
+
+/* LOADER HATI */
+.cssload-main {
+  display: none; /* disembunyikan dulu, muncul via JS */
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Bentuk hati */
+.cssload-heart {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  transform: rotate(-45deg);
+  animation: heartbeat 0.8s infinite;
+}
+
+.cssload-heartL,
+.cssload-heartR,
+.cssload-square {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: #fb7185;
+}
+
+.cssload-heartL {
+  border-radius: 50% 0 0 50%;
+  left: 0;
+  top: 0;
+}
+
+.cssload-heartR {
+  border-radius: 0 50% 50% 0;
+  right: 0;
+  top: 0;
+}
+
+.cssload-square {
+  transform: rotate(45deg);
+  bottom: 0;
+  left: 16px;
+}
+
+/* Bayangan hati */
+.cssload-shadow {
+  margin-top: 18px;
+  width: 70px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  filter: blur(6px);
+  animation: shadowpulse 0.8s infinite;
+}
+
+/* ANIMASI */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: rotate(-45deg) scale(1);
+  }
+  50% {
+    transform: rotate(-45deg) scale(1.18);
+  }
+}
+
+@keyframes shadowpulse {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scaleX(1.25);
+    opacity: 0.5;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .question-container,
+  .result-container {
+    padding: 1.5rem 1.1rem 1.8rem;
+  }
+
+  .question {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    min-width: 100px;
+    font-size: 0.9rem;
+  }
+}
