@@ -2,56 +2,32 @@ const questionContainer = document.querySelector(".question-container");
 const resultContainer = document.querySelector(".result-container");
 const gifResult = document.querySelector(".gif-result");
 const heartLoader = document.querySelector(".cssload-main");
-const yesBtn = document.querySelector(".js-yes-btn");
-const noBtn = document.querySelector(".js-no-btn");
+const yesBtn = document.querySelector(".yes-btn");
+const noBtn = document.querySelector(".no-btn");
+const buttonContainer = document.querySelector(".button-container");
 
-// =========================
-//  TOMBOL "NO" KABUR 😈
-// =========================
+// TOMBOL NO KABUR DALAM CARD
+noBtn.addEventListener("mouseover", () => {
+  const area = buttonContainer.getBoundingClientRect();
 
-if (noBtn) {
-  noBtn.addEventListener("mouseover", () => {
-    // batas maksimal posisi tombol biar tetap di layar
-    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+  const maxX = area.width - noBtn.offsetWidth;
+  const maxY = area.height - noBtn.offsetHeight;
 
-    const newX = Math.random() * maxX;
-    const newY = Math.random() * maxY;
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
 
-    noBtn.style.left = `${newX}px`;
-    noBtn.style.top = `${newY}px`;
-  });
-}
+  noBtn.style.left = `${newX}px`;
+  noBtn.style.top = `${newY}px`;
+});
 
-// =========================
-//  TOMBOL "YES" 💚
-// =========================
+// TOMBOL YES
+yesBtn.addEventListener("click", () => {
+  questionContainer.style.display = "none";
+  heartLoader.style.display = "flex";
 
-if (yesBtn) {
-  yesBtn.addEventListener("click", () => {
-    // sembunyiin pertanyaan
-    if (questionContainer) {
-      questionContainer.style.display = "none";
-    }
-
-    // munculin loader hati
-    if (heartLoader) {
-      heartLoader.style.display = "flex";
-    }
-
-    // setelah 3 detik, tunjukin hasil
-    setTimeout(() => {
-      if (heartLoader) {
-        heartLoader.style.display = "none";
-      }
-
-      if (resultContainer) {
-        resultContainer.style.display = "flex";
-      }
-
-      if (gifResult && typeof gifResult.play === "function") {
-        gifResult.play();
-      }
-    }, 3000);
-  });
-}
+  setTimeout(() => {
+    heartLoader.style.display = "none";
+    resultContainer.style.display = "block";
+    gifResult.play();
+  }, 2000);
+});
