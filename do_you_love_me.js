@@ -5,61 +5,59 @@ const heartLoader = document.querySelector(".cssload-main");
 const yesBtn = document.querySelector(".yes-btn");
 const noBtn = document.querySelector(".no-btn");
 
-// skala awal tombol NO
+// pastikan tombol NO fixed agar bisa lompat seluruh layar
+noBtn.style.position = "fixed";
+noBtn.style.zIndex = "9999";
+
+// ukuran awal tombol
 let noScale = 1;
 
-// fungsi untuk mindahin tombol NO ke posisi random dan mengecilkannya
-function moveNoButton() {
-  if (!noBtn) return;
-
-  // kalau sudah terlalu kecil → hilang total
-  if (noScale <= 0.1) {
-    noScale = 0;
-    noBtn.style.transform = "scale(0)";
+// fungsi lompat bebas
+function jumpNoButton() {
+  if (noScale <= 0.15) {
     noBtn.style.opacity = "0";
+    noBtn.style.transform = "scale(0)";
     noBtn.style.pointerEvents = "none";
     return;
   }
 
-  const padding = 16; // jarak dari pinggir layar
-  const maxX = window.innerWidth - noBtn.offsetWidth - padding * 2;
-  const maxY = window.innerHeight - noBtn.offsetHeight - padding * 2;
+  const padding = 20;
 
-  const newX = padding + Math.random() * maxX;
-  const newY = padding + Math.random() * maxY;
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
 
   noBtn.style.left = `${newX}px`;
   noBtn.style.top = `${newY}px`;
 
-  // kecilkan sedikit tiap dipicu
-  noScale -= 0.07;                // ubah angka ini kalau mau lebih cepat / lambat mengecil
-  if (noScale < 0.1) noScale = 0.1;
-
+  // kecilkan bertahap
+  noScale -= 0.1;
   noBtn.style.transform = `scale(${noScale})`;
-  noBtn.style.opacity = String(noScale);
+  noBtn.style.opacity = `${noScale}`;
 }
 
-// desktop: hover / mendekat
-noBtn.addEventListener("pointerenter", (e) => {
-  e.preventDefault();
-  moveNoButton();
-});
+// ==== EVENT UNIVERSAL (ANTI-BUG) ====
 
-// mobile & desktop: klik / tap
+// desktop hover
+noBtn.addEventListener("pointerenter", jumpNoButton);
+
+// mobile tap
 noBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault();
-  e.stopPropagation();
-  moveNoButton();
+  jumpNoButton();
 });
 
-// TOMBOL YES
+// ==== YES BUTTON ====
 yesBtn.addEventListener("click", () => {
-  if (questionContainer) questionContainer.style.display = "none";
-  if (heartLoader) heartLoader.style.display = "flex";
+  questionContainer.style.display = "none";
+  heartLoader.style.display = "flex";
 
   setTimeout(() => {
-    if (heartLoader) heartLoader.style.display = "none";
-    if (resultContainer) resultContainer.style.display = "block";
+    heartLoader.style.display = "none";
+    resultContainer.style.display = "block";
+
     if (gifResult && typeof gifResult.play === "function") {
       gifResult.play();
     }
