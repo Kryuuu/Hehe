@@ -6,8 +6,19 @@ const yesBtn = document.querySelector(".yes-btn");
 const noBtn = document.querySelector(".no-btn");
 const buttonContainer = document.querySelector(".button-container");
 
-// TOMBOL NO KABUR DALAM CARD
+// scale awal tombol NO
+let noScale = 1;
+
+// TOMBOL NO: kabur + mengecil tiap di-hover
 noBtn.addEventListener("mouseover", () => {
+  // kalau sudah terlalu kecil, hilangkan sekalian
+  if (noScale <= 0.2) {
+    noBtn.style.transform = "translate(-50%, -50%) scale(0)";
+    noBtn.style.opacity = "0";
+    noBtn.style.pointerEvents = "none"; // nggak bisa disentuh lagi
+    return;
+  }
+
   const area = buttonContainer.getBoundingClientRect();
 
   const maxX = area.width - noBtn.offsetWidth;
@@ -18,6 +29,13 @@ noBtn.addEventListener("mouseover", () => {
 
   noBtn.style.left = `${newX}px`;
   noBtn.style.top = `${newY}px`;
+
+  // kecilkan dikit setiap hover
+  noScale -= 0.12; // bisa kamu ubah (semakin besar, semakin cepat menghilang)
+  if (noScale < 0.2) noScale = 0.2;
+
+  noBtn.style.transform = `translate(-50%, -50%) scale(${noScale})`;
+  noBtn.style.opacity = String(noScale); // makin kecil makin transparan
 });
 
 // TOMBOL YES
