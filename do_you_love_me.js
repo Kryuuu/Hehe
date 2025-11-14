@@ -13,7 +13,7 @@ let noScale = 1;
 noBtn.addEventListener("mouseover", () => {
   // kalau sudah terlalu kecil, hilangkan sekalian
   if (noScale <= 0.2) {
-    noBtn.style.transform = "translate(-50%, -50%) scale(0)";
+    noBtn.style.transform = "scale(0)";
     noBtn.style.opacity = "0";
     noBtn.style.pointerEvents = "none"; // nggak bisa disentuh lagi
     return;
@@ -27,14 +27,15 @@ noBtn.addEventListener("mouseover", () => {
   const newX = Math.random() * maxX;
   const newY = Math.random() * maxY;
 
+  // posisi relatif terhadap container
   noBtn.style.left = `${newX}px`;
   noBtn.style.top = `${newY}px`;
 
   // kecilkan dikit setiap hover
-  noScale -= 0.12; // bisa kamu ubah (semakin besar, semakin cepat menghilang)
+  noScale -= 0.12; // semakin besar → semakin cepat hilang
   if (noScale < 0.2) noScale = 0.2;
 
-  noBtn.style.transform = `translate(-50%, -50%) scale(${noScale})`;
+  noBtn.style.transform = `scale(${noScale})`;
   noBtn.style.opacity = String(noScale); // makin kecil makin transparan
 });
 
