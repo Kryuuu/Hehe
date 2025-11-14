@@ -4,39 +4,52 @@ const gifResult = document.querySelector(".gif-result");
 const heartLoader = document.querySelector(".cssload-main");
 const yesBtn = document.querySelector(".yes-btn");
 const noBtn = document.querySelector(".no-btn");
-const buttonContainer = document.querySelector(".button-container");
+
+// pastikan NO jadi posisi fixed biar bisa lari ke seluruh layar
+noBtn.style.position = "fixed";
 
 // scale awal tombol NO
 let noScale = 1;
 
-// TOMBOL NO: kabur + mengecil tiap di-hover
-noBtn.addEventListener("mouseover", () => {
-  // kalau sudah terlalu kecil, hilangkan sekalian
+// fungsi untuk mindahin tombol NO ke posisi random
+function moveNoButton() {
+  // kalau sudah terlalu kecil -> hilang
   if (noScale <= 0.2) {
     noBtn.style.transform = "scale(0)";
     noBtn.style.opacity = "0";
-    noBtn.style.pointerEvents = "none"; // nggak bisa disentuh lagi
+    noBtn.style.pointerEvents = "none";
     return;
   }
 
-  const area = buttonContainer.getBoundingClientRect();
+  const padding = 16; // jarak dari pinggir layar
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-  const maxX = area.width - noBtn.offsetWidth;
-  const maxY = area.height - noBtn.offsetHeight;
+  const newX = padding + Math.random() * maxX;
+  const newY = padding + Math.random() * maxY;
 
-  const newX = Math.random() * maxX;
-  const newY = Math.random() * maxY;
-
-  // posisi relatif terhadap container
   noBtn.style.left = `${newX}px`;
   noBtn.style.top = `${newY}px`;
 
-  // kecilkan dikit setiap hover
-  noScale -= 0.12; // semakin besar → semakin cepat hilang
+  // kecilkan dikit setiap kali dikejar
+  noScale -= 0.12;
   if (noScale < 0.2) noScale = 0.2;
 
   noBtn.style.transform = `scale(${noScale})`;
-  noBtn.style.opacity = String(noScale); // makin kecil makin transparan
+  noBtn.style.opacity = String(noScale);
+}
+
+// desktop: hover
+noBtn.addEventListener("mouseover", moveNoButton);
+
+// mobile: tap
+noBtn.addEventListener("click", (e) => {
+  e.preventDefault(); // biar gak dianggap klik biasa di iOS
+  moveNoButton();
+});
+noBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  moveNoButton();
 });
 
 // TOMBOL YES
@@ -47,6 +60,8 @@ yesBtn.addEventListener("click", () => {
   setTimeout(() => {
     heartLoader.style.display = "none";
     resultContainer.style.display = "block";
-    gifResult.play();
+    if (gifResult && typeof gifResult.play === "function") {
+      gifResult.play();
+    }
   }, 2000);
 });
